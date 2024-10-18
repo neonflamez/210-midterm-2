@@ -177,6 +177,11 @@ int main() {
     vector<string> names;
     loadNamesFromFile(names, "names.txt");
 
+    if(names.empty()){
+        cout << "No names were loaded from file." << endl;
+        return 1;
+    }
+
     cout << "Store opens:\n";
     
     for(int i = 0; i < 5; i++){
@@ -188,7 +193,29 @@ int main() {
     cout << "Resulting line:\n";
     line.print();
 
-    
+    for(int timeStep = 1; timeStep <= 20; timeStep++){
+        cout << "Time step #" << timeStep << ":\n";
+
+        //40% chance
+        int prob = rand() % 100 + 1;
+        if(prob <= 40){
+            line.pop_front();
+        }
+
+        //60% chance
+        prob = rand() % 100 + 1;
+        if(prob <= 60){
+            string newCustomer = getRandomName(names);
+            line.push_back(newCustomer);
+            cout << newCustomer << " joins the line\n";
+        }
+
+        //20% chance
+        prob = rand() % 100 + 1;
+        if(prob <= 20){
+            cout << line.back() << " (at the rear) left the line\n";
+        }
+    }
 
     return 0;
 }
