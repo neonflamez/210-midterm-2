@@ -1,6 +1,10 @@
 // COMSC 210 || Midterm 2 || Shayan Khan
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <string>
 using namespace std;
 
 
@@ -69,6 +73,13 @@ public:
         delete temp;
     }
 
+    string front(){
+        return head ? head->data : "";
+    }
+    string back(){
+        return tail ? tail->data : "";
+    }
+
     ~DoublyLinkedList() {
         while (head) {
             Node* temp = head;
@@ -102,6 +113,24 @@ public:
         cout << endl;
     }
 };
+
+string getRandomName(vector<string>& names){
+    int index = rand() % names.size();
+    return names[index];
+}
+
+void loadNamesFromFile(vector<string>& names, const string& filename){
+    ifstream file(filename);
+    string name;
+    if(file.is_open()){
+        while(getline(file, name)){
+            if (!name.empty()){
+                names.push_back(name);
+            }
+        }
+        file.close();
+    }
+}
 
 int main() {
     
