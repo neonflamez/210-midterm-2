@@ -5,6 +5,7 @@
 #include <ctime>
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 
 
@@ -47,7 +48,7 @@ public:
         }
 
         Node * temp = head;
-
+        cout << head->data << " is served\n";
         if (head->next) {
             head = head->next;
             head->prev = nullptr;
@@ -70,6 +71,43 @@ public:
         }
         else
             head = tail = nullptr;
+        delete temp;
+    }
+
+    void delete_pos(int pos) {
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
+    
+        if (pos == 1) {
+            pop_front();
+            return;
+        }
+    
+        Node* temp = head;
+    
+        for (int i = 1; i < pos; i++){
+            if (!temp) {
+                cout << "Position doesn't exist." << endl;
+                return;
+            }
+            else
+                temp = temp->next;
+        }
+        if (!temp) {
+            cout << "Position doesn't exist." << endl;
+            return;
+        }
+    
+        if (!temp->next) {
+            pop_back();
+            return;
+        }
+    
+        Node* tempPrev = temp->prev;
+        tempPrev->next = temp->next;
+        temp->next->prev = tempPrev;
         delete temp;
     }
 
@@ -133,8 +171,24 @@ void loadNamesFromFile(vector<string>& names, const string& filename){
 }
 
 int main() {
+    srand(time(nullptr));
+
+    DoublyLinkedList line;
+    vector<string> names;
+    loadNamesFromFile(names, "names.txt");
+
+    cout << "Store opens:\n";
     
+    for(int i = 0; i < 5; i++){
+        string newCustomer = getRandomName(names);
+        line.push_back(newCustomer);
+        cout << newCustomer << " joins the line\n";
+    }
+
+    cout << "Resulting line:\n";
+    line.print();
 
     
+
     return 0;
 }
