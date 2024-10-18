@@ -39,7 +39,17 @@ public:
         }
     }
     
-    
+    void push_front(string v) {
+        Node* newNode = new Node(v);
+        if (!head)
+            head = tail = newNode;
+        else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+
     void pop_front() {
 
         if (!head) {
@@ -214,7 +224,27 @@ int main() {
         prob = rand() % 100 + 1;
         if(prob <= 20){
             cout << line.back() << " (at the rear) left the line\n";
+            line.pop_back();
         }
+
+        //10% chance, any customer leaves randomly
+        prob = rand() % 100 + 1;
+        if(prob <= 10){
+            int randomPos = rand() % 5 + 1;
+            cout << "Customer at position " << randomPos << " left the line\n";
+            line.delete_pos(randomPos);
+        }
+
+        //10% chance, VIP joins
+        prob = rand() % 100 + 1;
+        if(prob <= 10){
+            string vipCustomer = getRandomName(names);
+            line.push_front(vipCustomer);
+            cout << vipCustomer << " (VIP) joins the front of the line\n";
+        }
+
+        cout << "Resulting Line:\n";
+        line.print();
     }
 
     return 0;
